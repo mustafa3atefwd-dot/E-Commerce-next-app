@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrandType } from '../_types/product.type';
 
 export default async function brands() {
 
@@ -30,7 +31,7 @@ const brandsData = await getBrands();
 
       {brandsData ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {brandsData.map((brand) => (
+          {brandsData.map((brand:BrandType) => (
             <div key={brand._id} className="border rounded-lg p-4  hover:scale-140 hover:duration-200 hover:bg-gray-50 transition-all duration-200 hover:shadow-green-400 hover:shadow-lg">
               <img
                 src={brand.image}
