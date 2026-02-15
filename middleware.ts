@@ -1,17 +1,18 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import React from "react";
 
-export default async function middlewear(req: NextRequest) {
-  const jwt = await getToken({ req });
+export default async function middleware(req: NextRequest) {
+  const jwt = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (jwt) {
     return NextResponse.next();
   }
 
-  return NextResponse.redirect("http://localhost:3000/login");
+  // safer redirect using request origin (works in dev/prod)
+  return NextResponse.redirect(new URL("/login", req.url));
 }
 
 export const config = {
-  matcher: ["/cart"],
+  // protect /carts and any nested routes (adjust as needed)
+  matcher: ["/carts", "/carts/:path*"],
 };

@@ -25,6 +25,11 @@ export default function PaymentPage() {
   const { cartId } = useContext(cartContext);
 
   async function handlePayment(values: paymentData) {
+    if (!cartId) {
+      // cartId can be null until the cart is loaded; guard before calling payment APIs
+      console.error("No cartId available for payment yet.");
+      return;
+    }
     const userData = {
       shippingAddress: {
         details: values.details,
@@ -129,7 +134,6 @@ export default function PaymentPage() {
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter your payment method here (cash or visa)"
                   autoComplete="off"
-                  
                 />
 
                 {fieldState.invalid && (
@@ -139,7 +143,11 @@ export default function PaymentPage() {
             )}
           />
 
-          <button className="w-1/2 mx-auto my-4 text-xl py-1 cursor-pointer rounded-3xl bg-green-600 text-white  rounded hover:bg-green-500 transition-colors duration-200">
+          <button
+            type="submit"
+            disabled={!cartId}
+            className="w-1/2 mx-auto my-4 text-xl py-1 cursor-pointer rounded-3xl bg-green-600 text-white  hover:bg-green-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Pay Now
           </button>
         </form>

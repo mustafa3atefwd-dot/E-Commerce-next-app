@@ -12,7 +12,7 @@ export default function Navbar() {
 
 const session = useSession()
 
-let {numOfCartItems} = useContext(cartContext)
+let {numOfCartItems}: any = useContext(cartContext)
 
 
 
